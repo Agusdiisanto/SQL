@@ -1,5 +1,33 @@
+CREATE TABLE proveedores(
 
-#PARA ESTE EJERCICIO NO SE PROVEEN LAS CREACIONES DE LAS TABLAS.
+	idprov varchar(2) PRIMARY KEY,
+	provnombre varchar(9),
+	categoria int,
+	ciudad varchar(12)
+);
+
+CREATE TABLE componentes(
+
+	idcomp varchar(2) PRIMARY KEY,
+	compnombre varchar(3),
+	color varchar(8),
+	peso int,
+	ciudad varchar(15)
+);
+
+CREATE TABLE articulos(
+
+	idart varchar(2) PRIMARY KEY,
+	artnombre varchar(15),
+	ciudad varchar(15)
+);
+
+idprov, idcomp, idart, cantidad
+CREATE TABLE envios(
+  
+
+);
+
 
 INSERT INTO proveedores
 	(idprov, provnombre, categoria, ciudad)
