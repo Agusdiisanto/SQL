@@ -99,7 +99,7 @@ VALUES
 ('4522','Intro',1),
 ('7825','Objetos3',1),
 ('9809','Orga',1),
-('6905','Estructuras',1)
+('6905','BaseDeDatos',1)
 ;
 
 INSERT INTO inscripto
