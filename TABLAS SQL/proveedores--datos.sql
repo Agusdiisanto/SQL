@@ -6,28 +6,46 @@ CREATE TABLE proveedores(
 	ciudad varchar(12)
 );
 
+CREATE TABLE colarcion (
+	nombre_color varchar(10) PRIMARY KEY
+);
+
 CREATE TABLE componentes(
 
 	idcomp varchar(2) PRIMARY KEY,
 	compnombre varchar(3),
 	color varchar(8),
 	peso int,
-	ciudad varchar(15)
+	ciudad varchar(15),
+	FOREIGN KEY(color) REFERENCES colarcion(nombre_color)
 );
 
 CREATE TABLE articulos(
-
 	idart varchar(2) PRIMARY KEY,
 	artnombre varchar(15),
 	ciudad varchar(15)
 );
 
-idprov, idcomp, idart, cantidad
 CREATE TABLE envios(
-  
-
+	idprov varchar(2),
+	idcomp varchar(2),
+	idart varchar(2),
+	cantidad int,
+	PRIMARY KEY (idprov, idcomp, idart),
+	FOREIGN KEY (idprov) REFERENCES proveedores (idprov),
+  	FOREIGN KEY (idcomp) REFERENCES componentes (idcomp),
+  	FOREIGN KEY (idart) REFERENCES articulos (idart)
+	ON DELETE CASCADE
 );
 
+INSERT INTO colarcion (nombre_color)
+VALUES 
+('Rojo'),
+('Verde'),
+('Azul'),
+('Violeta'),
+('Marron')	
+;
 
 INSERT INTO proveedores
 	(idprov, provnombre, categoria, ciudad)
