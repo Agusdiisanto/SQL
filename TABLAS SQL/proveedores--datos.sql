@@ -6,7 +6,7 @@ CREATE TABLE proveedores(
 	ciudad varchar(12)
 );
 
-CREATE TABLE colarcion (
+CREATE TABLE coloracion (
 	nombre_color varchar(10) PRIMARY KEY
 );
 
@@ -17,7 +17,7 @@ CREATE TABLE componentes(
 	color varchar(8),
 	peso int,
 	ciudad varchar(15),
-	FOREIGN KEY(color) REFERENCES colarcion(nombre_color)
+	FOREIGN KEY(color) REFERENCES coloracion(nombre_color)
 );
 
 CREATE TABLE articulos(
@@ -38,7 +38,7 @@ CREATE TABLE envios(
 	ON DELETE CASCADE
 );
 
-INSERT INTO colarcion (nombre_color)
+INSERT INTO coloracion (nombre_color)
 VALUES 
 ('Rojo'),
 ('Verde'),
