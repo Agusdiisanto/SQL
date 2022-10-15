@@ -142,8 +142,43 @@ VALUES
 
 
 
+-- OTRA FORMA DE LOS INSERT INTO 
 
+INSERT INTO alumno (legajo, apellido, nombre, aniodeingreso, trabaja)
+VALUES
+(1255,'Godoy','Josue',2012, FALSE),
+(1254,'Mereles','Mirta',1918, TRUE);
 
+INSERT INTO profesor (legajo_prof,cuil,apellido,nombre,marca,aniodeIngreso,polizaart,salario)
+VALUES
+(1234,'quinientosmiltres','Salazar','Maria','lacoste',2010,'tresientosdos',45000),
+(1235,'quinientosmilcuatro','Moreno','Laura','nike',2012,'tresientoscuatro',56000),
+(1237,'quinientosmilsiete','Robledo','Oscar','adidas',2012,'tresientoscuatro',17000);
+
+INSERT INTO curso (cod_curso,legajo_prof,cod_materia,dia,turno)
+VALUES
+('dos',1234,'cien','mar',12),
+('uno',1235,'doscientos','mie',14);
+
+INSERT INTO inscripto (cod_curso,legajo)
+VALUES
+('dos',1254),
+('uno',1255);
+
+INSERT INTO materia (cod_materia,materia,semestre)
+VALUES
+('cien','Base de datos',1),
+('doscientos','Introduccion a la programacion',2);
+
+INSERT INTO puede_dar (cod_materia,legajo_prof)
+VALUES
+('cien', 1234),
+('doscientos', 1235);
+
+INSERT INTO profesor_trabaja_industria (legajo_prof,sueldo)
+VALUES
+(1234, 45000),
+(1235, 56000);
 
 
 
