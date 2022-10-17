@@ -50,13 +50,13 @@ CREATE TABLE contribucion(
 INSERT INTO usuario
 (usuario,correo,fecha_nacimiento,ciudad,nyap,contrasenia,cantidad_pull_request)
 VALUES
-('agusdiisanto','Agusdisanto99@gmail.com','2002/11/3','Bernal','Agustin Di Santo', 'Mancedo2022',34),
+('agusdiisanto','Agusdisanto99@gmail.com','2002/11/3','Bernal','Agustin Di Santo', 'Mancedo2022#2022123045012312131211',34),
 ('magicTowers','magiToweers99@hotmail.com','1989/08/30','Espeleta','Diego Torres', '1234567',5),
 ('juanManuel34','juanManuelSanchez10@gmail.com','2001/10/23','Wilde','Juan Manuel Sanchez', 'Dolar',20),
 ('tomasCenturion2','feTomasCenturion2@hotmail.com','1999/09/12','Varela','Tomas Centurion', 'A34',10),
 ('abreguSantiago','santiagoAbregu@gmail.com','2000/07/15','Varela','Santiago Abregu', '21345',12),
 ('ezequielGonzales','ezequielGonzales@gmail.com','1999/12/23','Espeleta','Ezequiel Gonzales', 'MercadoLibrew234',4),
-('ValeN212','valentin@gmail.com','1998/09/28','Quilmes','Valentin Ferreyra', 'unq12Po2',25),
+('ValeN212','valentin@gmail.com','1998/09/28','Quilmes','Valentin Ferreyra', 'unq12Po2#1234Po230121312113121213134',25),
 ('gabi','gabi20@gmail.com','1980/11/28','Quilmes','Gabi', 'Base',65),
 ('pepim','pepim203@gmail.com','1997/1/25','Solano','pepim','pepim123',21),
 ('solan','solan123@gmail.com','2012/03/12','Quilmes','Solan','solan213',32);
@@ -108,16 +108,16 @@ INSERT INTO commite
 (hashe,id_archivo,titulo,descripcion,fecha_cambio)
 VALUES
     ('bsad2135291', 58259, 'Persistencia', 'ejercicios de java', '2022/10/15'),
-    ('asdasn21349', 36587, 'SQL', 'ejercicios de java', '2022/9/23'),
+    ('asdasn21349', 36587, 'SQL', 'ejercicios de java', '2021/9/23'),
     ('gdsa2138402', 68048, 'JAVA', 'ejercicios de java', '2022/10/14'),
     ('keiwq210485', 21314, 'TP-FINAL', 'TrabajoPractico de java', '2022/10/12'),
-    ('toreqwjr124', 98257, 'Persistencia', 'ejercicios', '2022/10/2'),
+    ('toreqwjr124', 98257, 'Persistencia', 'ejercicios', '2021/10/2'),
     ('hwo393sywm9', 21381, 'SQL', 'ejercicios de sql', '2022/10/9'),
     ('jh29sa20456', 62581, 'Estructuras', 'ejercicios estructuras ', '2015/10/19'),
     ('sa29vmap28m', 89054, 'Estructuras', 'ejercicios estructuras ', '2015/02/28'),
     ('yqwn2mwo914', 97051, 'Estructuras', 'ejercicios estructuras', '2022/10/29'),
     ('oqitnaspo32', 54608, 'Mate', 'ejercicios estructuras', '2012/4/12'),
-    ('asj294qwpv3', 62450, 'AnalisisMatematico', 'ejercicios Analisis', '2022/10/12');
+    ('asj294qwpv3', 62450, 'AnalisisMatematico', 'ejercicios Analisis', '2021/10/12');
 
 INSERT INTO contribucion
 (hashe,usuario,cantidad_cambios)

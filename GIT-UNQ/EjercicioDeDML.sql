@@ -67,7 +67,58 @@ GROUP BY archivo.id, usuario.ciudad
 -- 6. Obtener un listado de las últimas actividades. Que son, por usuario, la suma de contribuciones que hizo y
 --el promedio de la cantidad de cambios, ordenados descendentemente por estas últimas dos.
 
-SELECT usuario, sum(cantidad_cambios + cantidad_pull_request) AS contribucionesTotales, ROUND(AVG(cantidad_cambios),2)
+SELECT usuario, sum(cantidad_cambios + cantidad_pull_request) AS contribuciones_Totales, ROUND(AVG(cantidad_cambios),2) AS promedio_cambios
 FROM usuario 
 NATURAL JOIN contribucion
 GROUP BY usuario
+ORDER BY contribuciones_Totales DESC, promedio_cambios DESC
+
+-- 7. Obtener el nombre de usuario y el repositorio en donde el usuario sea el creador del repositorio pero no
+-- haya hecho contribuciones, o haya hecho al menos tres.
+
+SELECT DISTINCT usuario.nyap, repositorio.nombre 
+FROM usuario 
+JOIN repositorio 
+ON repositorio.usuario = usuario.usuario
+JOIN archivo 
+ON archivo.nombre_repositorio = repositorio.nombre
+JOIN commite 
+ON commite.id_archivo != archivo.id
+
+UNION 
+
+SELECT DISTINCT usuario.nyap, repositorio.nombre 
+FROM usuario 
+JOIN repositorio 
+ON repositorio.usuario = usuario.usuario
+JOIN archivo 
+ON archivo.nombre_repositorio = repositorio.nombre
+JOIN commite 
+ON commite.id_archivo = archivo.id
+JOIN contribucion
+ON contribucion.hashe = commite.hashe
+WHERE cantidad_cambios >= 3
+
+
+--8. Obtener la cantidad de repositorios superseguros por ciudad. Que son los que pertenecen a usuarios con
+--contraseña que poseen al menos un ‘#’ numeral, más de 32 caracteres y el usuario hizo más de diez
+--contribuciones, ordenados descendentemente por cantidad de favoritos.
+
+
+SELECT repositorio.* , count(DISTINCT repositorio.nombre) AS cantidad_de_repositorio
+FROM usuario 
+NATURAL JOIN contribucion
+JOIN repositorio 
+ON repositorio.usuario = usuario.usuario
+WHERE ((LENGTH(contrasenia) >= 32) AND (contrasenia LIKE '%#%') AND (contribucion.cantidad_cambios > 10))
+GROUP BY repositorio.nombre
+ORDER BY repositorio.cantidad_favoritos DESC
+
+--9. Obtener los tres archivos más modificados del 2021 por usuarios que hayan hecho más de 6 pull requests
+--o que posean menos de tres repositorios (puede cumplirse una o ambas condiciones).
+
+
+SELECT *
+FROM archivo
+
+
