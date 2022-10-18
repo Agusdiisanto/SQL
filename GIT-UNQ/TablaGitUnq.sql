@@ -88,6 +88,7 @@ VALUES
     (62581, 'Estructuras', 'tomasCenturion2', 'Ejercicios'),
     (62450, 'AnalisisMatematico', 'abreguSantiago', 'Ejercicios'),
     (54857, 'TP-INTERFACES', 'juanManuel34', 'Enunciados'),
+    (71058, 'TP-OBJ2', 'agusdiisanto', 'Trabajo practico'),
     (21381, 'BaseDeDatos', 'gabi', 'Material teorico');
 
 INSERT INTO archivo

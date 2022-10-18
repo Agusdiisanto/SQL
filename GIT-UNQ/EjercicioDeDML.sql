@@ -54,7 +54,7 @@ WHERE usuario.ciudad = 'Varela'
 GROUP BY repositorio.nombre;
 
 -- 5. Obtener un listado que muestre de cada archivo, el usuario que más commiteó en el mismo junto con la
--- ciudad cantidad de commits. -- ¿Consulta Como muestro al usuario que mas comiteo de cada archivo? Ya lo hace la consulta?
+-- ciudad cantidad de commits.
 
 SELECT archivo.*, usuario.ciudad, MAX(cantidad_cambios) AS maximos_cambios
 FROM archivo 
@@ -104,21 +104,72 @@ WHERE cantidad_cambios >= 3
 --contraseña que poseen al menos un ‘#’ numeral, más de 32 caracteres y el usuario hizo más de diez
 --contribuciones, ordenados descendentemente por cantidad de favoritos.
 
-
-SELECT repositorio.* , count(DISTINCT repositorio.nombre) AS cantidad_de_repositorio
-FROM usuario 
-NATURAL JOIN contribucion
-JOIN repositorio 
-ON repositorio.usuario = usuario.usuario
-WHERE ((LENGTH(contrasenia) >= 32) AND (contrasenia LIKE '%#%') AND (contribucion.cantidad_cambios > 10))
-GROUP BY repositorio.nombre
-ORDER BY repositorio.cantidad_favoritos DESC
+SELECT t.usuario, t.ciudad, t.cantidad_de_repositorio, repositorio.cantidad_favoritos
+FROM repositorio
+JOIN (
+        SELECT usuario.ciudad, usuario.usuario ,count(DISTINCT repositorio.nombre) AS cantidad_de_repositorio
+        FROM usuario 
+        NATURAL JOIN contribucion
+        JOIN repositorio 
+        ON repositorio.usuario = usuario.usuario
+        WHERE ((LENGTH(contrasenia) >= 32) AND (contrasenia LIKE '%#%') AND (contribucion.cantidad_cambios > 10))
+        GROUP BY usuario.ciudad, usuario.usuario
+     ) AS t
+ON repositorio.usuario = t.usuario
+ORDER BY repositorio.cantidad_favoritos DESC 
+    
+    
 
 --9. Obtener los tres archivos más modificados del 2021 por usuarios que hayan hecho más de 6 pull requests
 --o que posean menos de tres repositorios (puede cumplirse una o ambas condiciones).
 
 
-SELECT *
-FROM archivo
+SELECT archivo.*
+FROM archivo 
+JOIN commite 
+ON commite.id_archivo = archivo.id 
+JOIN repositorio 
+ON repositorio.nombre = archivo.nombre_repositorio
+WHERE (fecha_cambio BETWEEN '2021/1/1' AND '2022/12/31') AND repositorio.cantidad_pull_request > 6;
+
+UNION 
+
+SELECT archivo.*
+FROM archivo 
+JOIN repositorio 
+ON repositorio.nombre = archivo.nombre_repositorio AND archivo.usuario_repositorio = repositorio.usuario
+GROUP BY archivo.id 
+HAVING (count(nombre_repositorio) + count(usuario)) > 3;
+
+-- 10. Obtener de los repositorios ‘family friendly’, el repositorio y la cantidad de contribuidores por edad. Son
+-- los repositorios en los que la edad de todos los usuarios que contribuyeron en el mismo es menor a 21.
+
+SELECT repositorio.nombre,usuario.usuario, count(contribucion.hashe) AS cantidad_de_contribuciones
+FROM usuario
+NATURAL JOIN contribucion
+JOIN repositorio
+ON repositorio.usuario = usuario.usuario
+WHERE (2022 - (EXTRACT(year FROM (DATE(usuario.fecha_nacimiento))))) <= 21
+GROUP BY repositorio.nombre,usuario.usuario
+HAVING (count(usuario.usuario) = count(contribucion.hashe))
 
 
+-- 11. Obtener los más activos. Que son los usuarios que realizaron más commits que el promedio, ordenados
+-- ascendentemente por nyap y ciudad, y descendentemente por la cantidad de commits
+
+SELECT usuario.nyap, usuario.ciudad, contribucion.cantidad_cambios
+FROM usuario 
+NATURAL JOIN(
+        SELECT u.usuario ,avg(c.cantidad_contribuciones) AS promedio_commit
+        FROM (
+                SELECT usuario.nyap, usuario.ciudad, count(c.usuario) AS cantidad_contribuciones
+                FROM usuario 
+                JOIN contribucion AS c
+                ON c.usuario = usuario.usuario
+                GROUP BY usuario.nyap, usuario.ciudad
+             ) AS u
+        GROUP BY u.usuario, u.nyap , u.ciudad
+    ) AS u
+JOIN contribucion
+ON contribucion.usuario = usuario.usuario
+WHERE contribucion.cantidad_cambios > usuario.promedio_commit
