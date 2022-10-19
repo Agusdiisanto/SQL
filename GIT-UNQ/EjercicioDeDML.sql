@@ -157,22 +157,20 @@ HAVING (count(usuario.usuario) = count(contribucion.hashe))
 -- 11. Obtener los más activos. Que son los usuarios que realizaron más commits que el promedio, ordenados
 -- ascendentemente por nyap y ciudad, y descendentemente por la cantidad de commits
 
-SELECT usuario.*
-FROM usuario
-NATURAL JOIN (
-                SELECT contribucion.usuario, count(contribucion.usuario) AS total_commits
-                FROM contribucion
-                GROUP BY contribucion.usuario
-             )  AS usuarios_commits 
-JOIN    (
-           SELECT usuarios_commits.usuario , avg(total_commits) AS promedio_commits 
-           FROM (
-                SELECT contribucion.usuario, count(contribucion.usuario) AS total_commits
-                FROM contribucion
-                GROUP BY contribucion.usuario	
-           	) AS usuarios_commits
-  	       GROUP BY usuarios_commits.usuario
-        ) AS promedio_usuario_commit
-ON usuario.usuario = promedio_usuario_commit.usuario  
-WHERE total_commits > promedio_commits
-ORDER BY usuario.nyap, usuario.ciudad asc, commits_totales desc;
+SELECT usuario.nyap , usuario.ciudad , commits_promedio.cantidad_cambios
+FROM usuario 
+JOIN (
+       SELECT contribucion.*, x.promedio_commits
+       FROM contribucion,(
+                     SELECT ROUND(avg(t.total_commits),2) AS promedio_commits 
+                     FROM (
+                            SELECT count(contribucion.usuario) AS total_commits
+                            FROM contribucion 
+                            ) AS t
+                     ) x
+       ) commits_promedio
+ON usuario.usuario = commits_promedio.usuario 
+WHERE commits_promedio.cantidad_cambios > commits_promedio.promedio_commits
+ORDER BY usuario.nyap , usuario.ciudad , commits_promedio.cantidad_cambios DESC 
+
+
