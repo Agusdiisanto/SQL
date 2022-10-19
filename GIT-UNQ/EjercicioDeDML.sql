@@ -174,3 +174,20 @@ WHERE commits_promedio.cantidad_cambios > commits_promedio.promedio_commits
 ORDER BY usuario.nyap , usuario.ciudad , commits_promedio.cantidad_cambios DESC 
 
 
+-- 12. Obtener de cada repositorio su contribuidor insignia. Que es aquel que más cambios realizó durante sus
+-- distintas contribuciones.
+ 
+SELECT repositorio.nombre , repositorio.usuario, MAX(cantidad_cambios) AS max_cambios
+FROM repositorio 
+JOIN contribucion 
+ON repositorio.usuario = contribucion.usuario
+GROUP BY repositorio.nombre, repositorio.usuario
+
+-- 13. Tenemos una alta demanda de commits por archivo y fecha de cambio. 
+-- Aplicar una estrategia para compensar esta alta demanda.
+
+-- 14 
+
+--15 
+
+ALTER TABLE usuario ADD CONSTRAINT unica_usuario UNIQUE (correo,ciudad)
